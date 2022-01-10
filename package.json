@@ -1,0 +1,22 @@
+{
+  "name": "getir-assignment",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server",
+  "scripts": {
+    "start": "node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "_moduleAliases": {
+    "constants": "constants",
+    "logger": "logger",
+    "server": "server"
+  },
+  "author": "Afzal Shahul Hameed",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.17.2",
+    "module-alias": "2.2.2",
+    "winston": "3.3.4"
+  }
+}
