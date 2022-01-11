@@ -2,6 +2,8 @@ const express = require('express')
 
 const { API_RESPONSE } = require('constants')
 const { schema } = require('server/routes/challenge/helper')
+const getDB = require('server/db')
+const logger = require('logger')
 
 const router = express.Router()
 
@@ -19,10 +21,43 @@ router.post('/', async function (req, res, next) {
             body.msg = basicValidation.error.details[0].message
             return res.json(body)
         }
+        const { startDate, endDate, minCount, maxCount } = req.body
+        logger.info('Request body validated')
 
         body.status = API_RESPONSE.SUCCESS.code
         body.msg = API_RESPONSE.SUCCESS.msg
-        body.records = []
+
+        const db = await getDB
+        body.records = await db.collection('records').aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate)
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    key: 1,
+                    createdAt: 1,
+                    totalCount: {
+                        $sum: '$counts'
+                    }
+                }
+            },
+            {
+                $match: {
+                    totalCount: {
+                        $gte: minCount,
+                        $lte: maxCount
+                    }
+                }
+            }
+        ]).toArray()
+        logger.info('Matching records fetched')
+
         res.json(body)
     } catch (err) {
         return next(err)

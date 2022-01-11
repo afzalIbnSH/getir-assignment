@@ -11,5 +11,7 @@ module.exports = {
             code: 1,
             type: 'Validation Failure'
         }
-    }
+    },
+    DB_URL: 'mongodb+srv://challengeUser:WUMglwNBaydH8Yvu@challenge-xzwqd.mongodb.net/',
+    DB_NAME: 'getir-case-study'
 }

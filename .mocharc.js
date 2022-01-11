@@ -2,6 +2,6 @@ require('module-alias/register')
 
 module.exports = {
   recursive: true,
-  timeout: '5s',
+  timeout: '15s',
   exit: true
 }
