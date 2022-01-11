@@ -1,0 +1,26 @@
+{
+    "name": "getir-afzal-assignment",
+    "scripts": {},
+    "environments": {
+        "test": {
+            "formation": {
+                "test": {
+                    "quantity": 1,
+                    "size": "standard-1x"
+                }
+            }
+        }
+    },
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "hobby"
+        }
+    },
+    "buildpacks": [
+        {
+            "url": "heroku/nodejs"
+        }
+    ],
+    "stack": "heroku-20"
+}
