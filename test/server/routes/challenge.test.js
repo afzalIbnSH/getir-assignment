@@ -12,8 +12,12 @@ describe('Challenge API', () => {
             .post(endpoint)
             .set('Accept', 'application.json')
             .expect('Content-Type', /json/)
-            .expect(400)
-        assert.deepEqual(res.body, { error: '"startDate" is required' })
+            .expect(200)
+        assert.deepEqual(res.body, {
+            errType: 'Validation Failure',
+            msg: '"startDate" is required',
+            status: 1
+        })
     })
 
     it('Should detect invalid startDate', async () => {
@@ -22,8 +26,12 @@ describe('Challenge API', () => {
             .set('Accept', 'application.json')
             .send({ startDate: 'startDate' })
             .expect('Content-Type', /json/)
-            .expect(400)
-        assert.deepEqual(res.body, { error: '"startDate" must be in YYYY-MM-DD format' })
+            .expect(200)
+        assert.deepEqual(res.body, {
+            errType: 'Validation Failure',
+            msg: '"startDate" must be in YYYY-MM-DD format',
+            status: 1
+        })
     })
 
     it('Should detect missing endDate', async () => {
@@ -32,8 +40,12 @@ describe('Challenge API', () => {
             .set('Accept', 'application.json')
             .send({ startDate: '2021-11-11' })
             .expect('Content-Type', /json/)
-            .expect(400)
-        assert.deepEqual(res.body, { error: '"endDate" is required' })
+            .expect(200)
+        assert.deepEqual(res.body, {
+            errType: 'Validation Failure',
+            msg: '"endDate" is required',
+            status: 1
+        })
     })
 
     it('Should detect invalid endDate', async () => {
@@ -42,8 +54,12 @@ describe('Challenge API', () => {
             .set('Accept', 'application.json')
             .send({ startDate: '2021-11-11', endDate: 'endDate' })
             .expect('Content-Type', /json/)
-            .expect(400)
-        assert.deepEqual(res.body, { error: '"endDate" must be in YYYY-MM-DD format' })
+            .expect(200)
+        assert.deepEqual(res.body, {
+            errType: 'Validation Failure',
+            msg: '"endDate" must be in YYYY-MM-DD format',
+            status: 1
+        })
     })
 
     it('Should detect missing minCount', async () => {
@@ -52,8 +68,12 @@ describe('Challenge API', () => {
             .set('Accept', 'application.json')
             .send({ startDate: '2021-11-11', endDate: '2021-12-12' })
             .expect('Content-Type', /json/)
-            .expect(400)
-        assert.deepEqual(res.body, { error: '"minCount" is required' })
+            .expect(200)
+        assert.deepEqual(res.body, {
+            errType: 'Validation Failure',
+            msg: '"minCount" is required',
+            status: 1
+        })
     })
 
     it('Should detect invalid minCount', async () => {
@@ -62,8 +82,12 @@ describe('Challenge API', () => {
             .set('Accept', 'application.json')
             .send({ startDate: '2021-11-11', endDate: '2021-12-12', minCount: 'i' })
             .expect('Content-Type', /json/)
-            .expect(400)
-        assert.deepEqual(res.body, { error: '"minCount" must be a number' })
+            .expect(200)
+        assert.deepEqual(res.body, {
+            errType: 'Validation Failure',
+            msg: '"minCount" must be a number',
+            status: 1
+        })
     })
 
     it('Should detect missing maxCount', async () => {
@@ -72,8 +96,12 @@ describe('Challenge API', () => {
             .set('Accept', 'application.json')
             .send({ startDate: '2021-11-11', endDate: '2021-12-12', minCount: 6 })
             .expect('Content-Type', /json/)
-            .expect(400)
-        assert.deepEqual(res.body, { error: '"maxCount" is required' })
+            .expect(200)
+        assert.deepEqual(res.body, {
+            errType: 'Validation Failure',
+            msg: '"maxCount" is required',
+            status: 1
+        })
     })
 
     it('Should detect invalid maxCount', async () => {
@@ -82,8 +110,12 @@ describe('Challenge API', () => {
             .set('Accept', 'application.json')
             .send({ startDate: '2021-11-11', endDate: '2021-12-12', minCount: 6, maxCount: 'i' })
             .expect('Content-Type', /json/)
-            .expect(400)
-        assert.deepEqual(res.body, { error: '"maxCount" must be a number' })
+            .expect(200)
+        assert.deepEqual(res.body, {
+            errType: 'Validation Failure',
+            msg: '"maxCount" must be a number',
+            status: 1
+        })
     })
 
     it('Should succeed in the absence of all above errors', async () => {
@@ -94,10 +126,9 @@ describe('Challenge API', () => {
             .expect('Content-Type', /json/)
             .expect(200)
         assert.deepEqual(res.body, {
-            endDate: '2021-12-12',
-            maxCount: 10,
-            minCount: 6,
-            startDate: '2021-11-11'
+            msg: 'Success',
+            records: [],
+            status: 0
         })
     })
 })
