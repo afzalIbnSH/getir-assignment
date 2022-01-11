@@ -8,6 +8,7 @@ const routes = require('server/routes')
 
 const app = express()
 
+app.use(express.json());
 app.use('/routes', routes)
 
 app.listen(HTTP_PORT, function () {
